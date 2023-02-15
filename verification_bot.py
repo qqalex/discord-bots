@@ -2,6 +2,7 @@ import discord
 from discord import app_commands
 from captcha.image import ImageCaptcha
 import random
+import string
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
