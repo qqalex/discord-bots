@@ -1,10 +1,10 @@
-import SniperPlus
+import SniperPackage.Sniper
 import discord
 from discord import app_commands
 import time
 
-watchdog = SniperPlus.watchdog()
-auth = SniperPlus.credentials()
+watchdog = SniperPackage.Sniper.watchdog()
+auth = SniperPackage.Sniper.credentials()
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
