@@ -43,12 +43,6 @@ async def solve_command(interaction, captcha_answer: str):
         await interaction.response.send_message('The CAPTCHA is wrong. Try again.', ephemeral=True, delete_after=600)
 
 @client.event
-async def on_message(message):
-    if message.channel.id == 1069595439202058280 and message.author.id != client.user.id and message.author.id != 381966093813678080:
-        
-
-
-@client.event
 async def on_ready():
     await tree.sync(guild=discord.Object(id=1067257535549157427))
     await client.change_presence(status= discord.Status.online, activity= discord.Streaming(name='account verification.', platform='Twitch', url='https://www.twitch.tv/directory'))

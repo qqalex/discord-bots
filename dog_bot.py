@@ -1,6 +1,10 @@
+import SniperPlus
 import discord
 from discord import app_commands
 import time
+
+watchdog = SniperPlus.watchdog()
+auth = SniperPlus.credentials()
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
@@ -9,27 +13,27 @@ tree = app_commands.CommandTree(client)
 guild_object = discord.Object(id=1067257535549157427)
 token = open('dog_bot_token.txt', 'r').read()
 
-watchdog_file = open('watchdog_file', 'a+')
-focus_file = open('focus_file', 'a+')
-
 @tree.command(name = "ping", description = "Poke the Shiba", guild=guild_object)
 async def ping_command(interaction):
     message = f"\U0001f415 Sat in {int((time.time() - interaction.created_at.timestamp()) * 1000)} ms"
     await interaction.response.send_message(message, ephemeral=True)
 
 @tree.command(name = "add", description = "Add username to droptime watchdog", guild=guild_object)
-async def add_command(interaction, username):
-    message = f'Added ``{username}`` to ``WatchDog``'
-    await interaction.response.send_message()
+async def add_command(interaction, username: str):
+    if watchdog.Watch(username):
+        message = f'``{username}`` is already being watched'
+    else: 
+        message = f'Added ``{username}`` to ``WatchDog``'
+
+    await interaction.response.send_message(message, ephemeral=True)
 
 @tree.command(name = "remove", description = "Remove username from watchdog", guild=guild_object)
-async def remove_command(interaction, username):
-    message = f'Removed ``{username}`` from ``WatchDog``'
-    await interaction.response.send_message()
+async def remove_command(interaction, username: str):
+    if watchdog.Ignore(username):
+        message = f'``{username}`` is not watched``'
+    else: 
+        message = f'Removed ``{username}`` from ``WatchDog``'
 
-@tree.command(name = "focus", description= "A faster watchdog for just one account at a time", guild=guild_object)
-async def focus_command(interaction, username):
-    message = f'Added ``{username}`` to ``Focus``'
     await interaction.response.send_message(message, ephemeral=True)
 
 @client.event
